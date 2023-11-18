@@ -1,0 +1,428 @@
+/* ==== COMPILE =====
+sass --watch wedding-1/ucapan/_assets/scss/app.scss:wedding-1/ucapan/_assets/css/app.min.css --style compressed
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Rochester&display=swap');
+$colors: (
+    'primary'   : #7A9577,
+    'secondary' : #CBC7B7,
+    'danger'    : #957777,
+    'white'     : #FDFDFD,
+    'dark'      : #6B6654,
+    'dark-500'  : #908F89,
+    'black'     : #000000,
+);
+$breakpoints: (
+    'sm'        : 576px,
+    'md'        : 768px,
+    'lg'        : 992px,
+    'xl'        : 1200px,
+    'xxl'        : 1400px,
+);
+$loop-breakpoints: map-remove($breakpoints, 'xxl');
+
+$font-type-secondary: 'Rochester', cursive;
+@function color($value) { @return map-get($colors, $value); }
+@function breakpoint($value) { @return map-get($breakpoints, $value); }
+
+// RESET
+html,:root {
+    font-size: 10px;
+    scroll-behavior: smooth;
+    @media screen and (max-width: breakpoint('sm')) {
+        font-size: 9px;
+    }
+}
+html,body {
+    max-width: 100vw;
+    max-width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+h1,h2,h3,h4,h5,h6 { font-weight: normal; }
+h1 { 
+    font-size: 7.2rem; 
+    @media screen and (max-width: breakpoint('md')) { font-size: 5rem; }
+}
+h2 { 
+    font-size: 4.8rem; 
+    @media screen and (max-width: breakpoint('md')) { font-size: 3rem; }
+}
+h3 { font-size: 4.2rem; }
+h4 { font-size: 3.6rem; }
+h5 { font-size: 2.4rem; }
+h6 { 
+    font-size: 2rem; 
+    @media screen and (max-width: breakpoint('md')) { font-size: 1.6rem !important; }
+}
+p { font-size: 1.4rem; }
+.text-lg { 
+    font-size: 1.8rem; 
+    @media screen and (max-width: breakpoint('md')) { font-size: 1.4rem !important; }
+}
+.text-md { font-size: 1.6rem; }
+
+
+// COMPONENTS
+// override
+.container {
+    @media screen and (max-width: breakpoint('md')) {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+.navbar {
+    background-color: unset;
+    color: color('white');
+    padding: 2rem 3rem;
+    position: fixed;
+    left: 0; right: 0;
+    transition: all .5s ease-in;
+    z-index: 99;
+    @media screen and (max-width: breakpoint('md')) {
+        background-color: color('primary');
+    }
+    &.navbar-scrolled {
+        background-color: color('primary');
+        z-index: 99;
+    }
+    @media screen and (max-width: breakpoint('md')) {
+        padding: 2rem 0;
+    }
+    .navbar-brand, .navbar-toggler {
+        color: color('white');
+    }
+    .navbar-nav {
+        .nav-item {
+            padding: 0 2rem;
+            @media screen and (max-width: breakpoint('md')) {
+                padding: 0;
+            }
+            .nav-link {
+                color: color('white');
+                position: relative;
+                display: inline-flex;
+                align-items: center; justify-content: center;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    display: block;
+                    height: 2px;
+                    bottom: -.4rem;
+                    transition: all .8s ease-in;
+                }
+                &:hover {
+                    &::after {
+                        width: calc(70% + 1px);
+                        opacity: .7;
+                        background-color: color('white');
+                    }
+                }
+                @media screen and (max-width: breakpoint('md')) {
+                   font-size: 1.6rem;
+                   margin-top: 1.2rem;
+                }
+                &.active {
+                    color: color('white') !important;
+                    &::after {
+                        width: calc(70% + 1px);
+                        opacity: 1;
+                        background-color: color('white');
+                    }
+                }
+            }
+        }
+    }
+}
+.btn {
+    border-radius: 1rem;
+    outline: unset !important;
+    font-size: 1.6rem;
+    padding: 1.6rem 3.5rem;
+    &.btn-xs {
+        border-radius: 4px;
+        padding: .8rem 1.4rem !important;
+        font-size: 1rem !important;
+    }
+    &.btn-primary {
+        background-color: map-get($colors, 'primary') !important;
+        border: unset !important;
+    }
+}
+.form-label {
+    font-size: 2rem;
+    color: color('dark');
+}
+.form-control {
+    padding: 1.7rem;
+    font-size: 1.4rem;
+    &.is-invalid, &.is-valid {
+        background-image: unset;
+    }
+    &.is-valid { border-color: color('primary');}
+    &.is-invalid { border-color: color('danger');}
+    &:focus, &:active {
+        outline: unset !important;
+        box-shadow: unset !important;
+        border: 1px solid color('dark');
+    }
+    &::placeholder {
+        color: #DADAD8;
+        font-style: italic;
+    }
+}
+.form-select {
+    padding: 1.7rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    &.is-invalid, &.is-valid {
+        background-image: unset;
+    }
+    &.is-valid { border-color: color('primary');}
+    &.is-invalid { border-color: color('danger');}
+    &:focus, &:active {
+        outline: unset !important;
+        box-shadow: unset !important;
+        border: 1px solid color('dark');
+    }
+}
+.valid-feedback {color: color('primary');}
+.invalid-feedback {color: color('danger');}
+// custom
+.btn {
+    &#btn-play {
+        position: fixed;
+        bottom: 2rem; left: 2rem;
+    }
+    &#btn-to-top {
+        position: fixed;
+        bottom: 8rem; left: 2rem;
+        display: none;
+        animation: pop-out .3s linear forwards;
+    }
+    &.btn-light {
+        border: unset;
+        width: 5rem !important; height: 5rem !important;
+        padding: unset;
+        display: flex; 
+        align-items: center; justify-content: center;
+        border-radius: 50%;
+        z-index: 999;
+        box-shadow: unset !important;
+        background-color: rgba(color('black'), .8);
+        &.active {
+            i { color: color('primary');}
+        }
+        &:focus {
+            box-shadow: unset;
+        }
+        i { color: color('white') }
+    }
+}
+.text-dec {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    letter-spacing: 0.8rem;
+    @media screen and (max-width: breakpoint('md')) {
+        letter-spacing: 0.6rem; 
+    }
+    &::after, &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 6.5rem;
+        height: 2px;
+    }
+    &::after { right: -28%; }
+    &::before { left: -28%; }
+    &.text-dec-white {
+        color: map-get($colors, 'white');
+        &::before, &::after {
+            background-color: map-get($colors, 'white');
+        }
+    }
+}
+
+// UTILITY
+.font-type-secondary { font-family: $font-type-secondary; }
+.text-white { color: color('white') !important; }
+.text-primary { color: color('primary') !important; }
+.text-dark { color: color('dark') !important; }
+.text-dark-500 { color: color('dark-500') !important; }
+
+.text-spacing-default { 
+    letter-spacing: 0.6rem; 
+    @media screen and (max-width: breakpoint('md')) {
+        letter-spacing: 0.4rem; 
+    }
+}
+
+.font-light {font-weight: 300;}
+.font-normal {font-weight: 400;}
+.font-semibold {font-weight: 600;}
+.font-bold {font-weight: 700;}
+.font-extrabold {font-weight: 800;}
+.font-boldest {font-weight: 900;}
+
+// misc
+.csr-pointer {cursor: pointer;}
+
+$spacing-props: (
+    margin: m, 
+    margin-left: ml, 
+    margin-right: mr, 
+    margin-top: mt, 
+    margin-bottom: mb, 
+    (margin-left, margin-right): mx,
+    (margin-top, margin-bottom): my,
+    padding: p, 
+    padding-left: pl, 
+    padding-right: pr, 
+    padding-top: pt, 
+    padding-bottom: pb, 
+    (padding-left, padding-right): px,
+    (padding-top, padding-bottom): py,
+);
+@for $i from 0 to 11 {
+    @each $prop-name, $prop-abb in $spacing-props {
+        .#{$prop-abb}-#{$i} {
+            @each $pn in $prop-name {
+                #{$pn}: ($i * 1) * .5rem !important;
+            }
+        }
+    }
+}
+@for $i from 0 to 11 {
+    @each $prop-name, $prop-abb in $spacing-props {
+        @each $breakpoint-name, $breakpoint-value in $loop-breakpoints {
+            .#{$prop-abb}-#{$breakpoint-name}-#{$i} {
+                @media screen and (min-width: $breakpoint-value) {
+                    @each $pn in $prop-name {
+                        #{$pn}: ($i * 1) * .5rem !important;
+                    }
+                }
+            }
+        }
+    }
+}
+// SIZING
+// loop to max size in base.scss
+$sizing-props: (
+    width: w, 
+    height: h,
+    max-width: max-w,
+);
+// UNIT SIZE (0, REM)
+@for $i from 0 to (101) {
+    @each $prop-name, $prop-abb in $sizing-props {
+        // IF 0 : w-0 (no w-0rem)
+        @if ($i == 0) {
+            .#{$prop-abb}-#{$i} { #{$prop-name}: $i !important; }
+        } @else {
+            .#{$prop-abb}-#{$i}rem { #{$prop-name}: $i * 1rem !important; }
+        }
+    }
+}
+// UNIT SIZE (0, REM) RESPONSIVE
+@for $i from 0 to (101) {
+    @each $prop-name, $prop-abb in $sizing-props {
+        @each $breakpoint-name, $breakpoint-value in $loop-breakpoints {
+            // IF 0 : w-lg-0 (not w-lg-0rem)
+            @if ($i == 0) {
+                .#{$prop-abb}-#{$breakpoint-name}-#{$i} { 
+                    @media screen and (min-width: $breakpoint-value) {
+                        #{$prop-name}: $i !important; 
+                    }
+                }
+            } @else {
+                .#{$prop-abb}-#{$breakpoint-name}-#{$i}rem { 
+                    @media screen and (min-width: $breakpoint-value) {
+                        #{$prop-name}: $i * 1rem !important; 
+                    }
+                }
+            }
+        }
+    }
+}
+// PERCENTAGE SIZE
+@for $i from 25 to 101 {
+    @if ($i % 25 == 0) {
+        @each $prop-name, $prop-abb in $sizing-props {
+            .#{$prop-abb}-#{$i} { #{$prop-name}: $i * 1%; }
+            @each $breakpoint-name, $breakpoint-value in $loop-breakpoints {
+                @media screen and (min-width: $breakpoint-value) {
+                    .#{$prop-abb}-#{$breakpoint-name}-#{$i} { #{$prop-name}: $i * 1% !important; }
+                }
+            }
+        }
+    }
+}
+
+// OBJECT
+.obj-fit {
+    overflow: hidden;
+    &.obj-fit-cover {
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+    &.obj-fit-contain {
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+    &.obj-fit-fill {
+        img, video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+}
+
+
+// vendors
+#row-lightgallery {
+    [data-src] {
+        transition: all .4s ease-in;
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.02);
+        }
+    }
+}
+
+
+@keyframes opening-hide {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    } 50% {
+        transform: translateY(1rem);
+        opacity: 1;
+    } 100% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+@keyframes pop-out {
+    0% {
+        transform: scale(1);
+    } 50% {
+        transform: scale(1.1);
+    } 100% {
+        transform: scale(1);
+    }
+}
+

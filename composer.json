@@ -1,0 +1,16 @@
+{
+    "name": "levidio-wedding-vol-2/wedding-1-long",
+    "description": "Levidio Wedding Vol 2, Wedding 1 Long",
+    "authors": [
+        {
+            "name": "Rootpixel",
+            "email": "support@rootpixel.net"
+        }
+    ],
+    "require": {
+        "flatbase/flatbase": "^0.4.1",
+        "phpmailer/phpmailer": "^6.0",
+        "vlucas/phpdotenv": "^2.5",
+        "twig/twig": "^3.3"
+    }
+}
